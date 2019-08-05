@@ -33,9 +33,32 @@ export default class App extends Component {
   };
 
   changeDone = (value, i) => {
-    // this.setState({
+
+    // this.state.tasks.map(ele =>
+    //   {if (ele.id === i)
+    //  this.setState({ isCompleted: value,})
+    //  console.log(this)
     //   }
-    // )
+    //   )
+    //   console.log(this.state)
+
+    this.setState({
+      tasks: this.state.tasks.map(task => {
+        if (task.id === i) task.isCompleted = value;
+        return task;
+      })
+    })
+  }
+
+  deleteItem = (i) => {
+    debugger
+    this.setState({
+      tasks: this.state.tasks.map(task => {
+        if (task.id === i) this.state.tasks.splice(i, 1)
+        return task
+      })
+    })
+
   }
 
 
@@ -44,7 +67,7 @@ export default class App extends Component {
     return (
       <React.Fragment>
         <h6>App</h6>
-        <Todos tasks={tasks} fun= {this.changeDone} />
+        <Todos tasks={tasks} funchk={this.changeDone} funDelete={this.deleteItem}/>
       </React.Fragment >
     );
   }
