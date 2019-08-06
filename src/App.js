@@ -12,7 +12,7 @@ export default class App extends Component {
       {
         id: 2,
         title: "Eat Fried Chicken",
-        isCompleted: true
+        isCompleted: false
       },
       {
         id: 3,
@@ -50,13 +50,10 @@ export default class App extends Component {
     })
   }
 
-  deleteItem = (i) => {
+  deleteItem = (h) => {
     debugger
     this.setState({
-      tasks: this.state.tasks.map(task => {
-        if (task.id === i) this.state.tasks.splice(i, 1)
-        return task
-      })
+      tasks: this.state.tasks.filter((task, index) => task.id !== h)
     })
 
   }
