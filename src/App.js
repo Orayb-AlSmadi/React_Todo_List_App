@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Todos from './components/Todos';
 
-export default class App extends React.Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,6 +11,24 @@ export default class App extends React.Component {
       tasks: []
     };
   }
+
+  addHandler = (title)=>
+{
+  const url = `http://localhost:4000/tasks`;
+
+  axios
+  .post(url, {title:title})
+  .then(res => {
+    //  console.log(res.data)
+    this.setState({ tasks:res.data});
+  })
+  .catch(err => {
+    this.setState({
+      error: err
+    })
+    console.log(err);
+  });
+}
 
   componentDidMount() {
     fetch('http://localhost:4000/tasks')
@@ -34,26 +52,40 @@ export default class App extends React.Component {
 
 
   changeDone = (value, i) => {
-    this.setState({
-      tasks: this.state.tasks.map(task => {
-        if (task.id === i) task.isCompleted = value;
-        return task;
-      })
+    const url = `http://localhost:4000/tasks/${i}`
+
+    axios
+    .put(url)
+    .then(res => {
+      this.setState({ tasks:res.data});
     })
+    .catch(err => {
+      this.setState({
+        error: err
+      })
+      console.log(err);
+    });
+
+    // this.setState({
+    //   tasks: this.state.tasks.map(task => {
+    //     if (task.id === i) task.isCompleted = value;
+    //     return task;
+    //   })
+    // })
   }
 
   deleteItem = (h) => {
     const url = `http://localhost:4000/tasks/${h}`;
 
-    console.log(axios.delete(url))
-
-    axios
+      axios
       .delete(url)
       .then(res => {
-        console.log(res.data)
         this.setState({ tasks:res.data});
       })
       .catch(err => {
+        this.setState({
+          error: err
+        })
         console.log(err);
       });
       
@@ -78,7 +110,7 @@ export default class App extends React.Component {
       return (
         <React.Fragment>
           <h6>App</h6>
-          <Todos tasks={tasks} funchk={this.changeDone} funDelete={this.deleteItem} />
+          <Todos tasks={tasks} funchk={this.changeDone} funDelete={this.deleteItem} funAdd={this.addHandler} />
         </React.Fragment >
       );
     }

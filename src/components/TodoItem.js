@@ -15,6 +15,7 @@ export default class TodoItem extends Component {
 
   render() {
     const { title, isCompleted, key } = this.props.task;
+    console.log('idvomplryr', isCompleted)
     const style = { textDecoration: 'none' }
     return (
       <React.Fragment>
@@ -23,7 +24,7 @@ export default class TodoItem extends Component {
           textDecoration: (isCompleted) ? 'line-through' : 'none'
         }}>
 
-          <input type="checkbox" value={isCompleted.value} onChange={this.toggleComplete} />
+          <input type="checkbox" value={isCompleted.value} onChange={this.toggleComplete} checked={isCompleted}/>
           {title}
 
         </p>
